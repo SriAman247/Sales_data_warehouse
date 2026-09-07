@@ -13,7 +13,7 @@ The data architecture for this project follows Medallion Architecture **Bronze**
 3. **Gold Layer**: Houses business ready data in form of STAR Schema ready for analysis.
 
 ---
-## 📖 Project Overview
+## Project Overview
 
 This project involves:
 
