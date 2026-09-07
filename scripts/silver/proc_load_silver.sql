@@ -18,6 +18,13 @@ Usage Example:
 ===============================================================================
 */
 \set ON_ERROR_STOP on
+\set VERBOSITY verbose
+\set SHOW_CONTEXT errors
+
+-- Error handling is provided by psql. ON_ERROR_STOP stops this script at the
+-- first database error; the transaction begun below therefore cannot commit a
+-- partial Silver-layer load. VERBOSITY and SHOW_CONTEXT include the SQLSTATE,
+-- failing statement, and PostgreSQL context in the error output.
 
 SELECT clock_timestamp() As batch_start_time \gset
 \echo ================================================================
@@ -225,15 +232,4 @@ SELECT clock_timestamp() AS batch_end_time, clock_timestamp() - :'batch_start_ti
 \echo Total load duration: :batch_duration
 \echo ================================================================
 
-/*
-	END TRY
-	BEGIN CATCH
-		PRINT '=========================================='
-		PRINT 'ERROR OCCURED DURING LOADING BRONZE LAYER'
-		PRINT 'Error Message' + ERROR_MESSAGE();
-		PRINT 'Error Message' + CAST (ERROR_NUMBER() AS NVARCHAR);
-		PRINT 'Error Message' + CAST (ERROR_STATE() AS NVARCHAR);
-		PRINT '=========================================='
-	END CATCH
-END
-*/
+
